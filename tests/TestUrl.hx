@@ -9,7 +9,8 @@ class TestUrl extends Base {
     assertEquals('http://example.com/baz', url.resolve('/baz'));
     assertEquals('http://example.com/foo/bar#baz', url.resolve('#baz'));
     assertEquals('http://example.com/foo/bar?baz', url.resolve('?baz'));
-    assertEquals('//baz', url.resolve('//baz'));
+    assertEquals('http://baz', url.resolve('//baz'));
+    assertEquals('https://baz', url.resolve('https://baz'));
   }
   
   function testMailto() {

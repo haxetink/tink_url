@@ -22,7 +22,14 @@ abstract Url(UrlParts) {
     
   public function resolve(that:Url) 
     return
-      if (that.scheme != null || that.host != null) that;
+      if (that.scheme != null) that;
+      else if (that.host != null)
+        if (that.scheme != null) that;
+        else {
+          var copy = Reflect.copy(that);
+          @:privateAccess copy.scheme = this.scheme;
+          return copy;
+        }
       else {
         var parts:UrlParts = {
           path: this.path.join(that.path),
