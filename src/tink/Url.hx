@@ -1,6 +1,7 @@
 package tink;
 
 import tink.url.*;
+
 using StringTools;
 
 @:forward
@@ -74,7 +75,11 @@ abstract Url(UrlParts) {
     }
   
 	@:from static public function parse(s:String):Url {
+    s = s.trim();
     
+    if (s.startsWith('data:')) //this is kind of a fast-path
+      return new Url( { scheme: 'data', payload: s.substr(5) } );
+      
     var FORMAT = ~/^(([a-zA-Z]+):)?((\/\/(([^@\/]+)@)?(([^\/:]*)(:([0-9]*))?))?([^\?#]*)(\?([^#]*))?(#(.*))?)$/;
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
     
@@ -99,11 +104,12 @@ abstract Url(UrlParts) {
 }
 
 private typedef UrlParts = {
-	var path(default, null):Path;
+	@:optional var path(default, null):Path;
   var payload(default, null):String;
-	var query(default, null):Null<Query>;
-	var host(default, null):Host;
-	var auth(default, null):Auth;
-	var scheme(default, null):Null<String>;
-	var hash(default, null):Null<String>;
+  
+	@:optional var query(default, null):Query;
+	@:optional var host(default, null):Host;
+	@:optional var auth(default, null):Auth;
+	@:optional var scheme(default, null):String;
+	@:optional var hash(default, null):String;
 }
