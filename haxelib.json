@@ -1,0 +1,13 @@
+{
+	"name": "tink_url",
+	"url" : "http://haxetink.org/tink_url",
+	"license": "MIT",
+	"tags": ["tink", "cross", "utility", "url", "path", "parsing", "normalization"],
+	"description": "URL and path handling made bearable",
+	"version": "0.0.0-alpha.0",
+	"releasenote": "Initial release",
+	"contributors": ["back2dos"],
+	"dependencies": {
+	},
+	"classPath": "src" 
+}
