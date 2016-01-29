@@ -20,7 +20,7 @@ abstract Url(UrlParts) {
   inline function new(parts)
     this = parts;
     
-  public function resolve(that:Url) 
+  public function resolve(that:Url):Url
     return
       if (that.scheme != null) that;
       else if (that.host != null)
@@ -82,6 +82,8 @@ abstract Url(UrlParts) {
     }
   
 	@:from static public function parse(s:String):Url {
+    if (s == null) 
+      return parse('');
     s = s.trim();
     
     if (s.startsWith('data:')) //this is kind of a fast-path

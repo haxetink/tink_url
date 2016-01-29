@@ -12,7 +12,6 @@ abstract Path(String) to String {
   public var isDir(get, never):Bool;
     inline function get_isDir()
       return this.charAt(this.length - 1) == '/';
-  
     
   inline function new(s) 
     this = s;
@@ -64,4 +63,6 @@ abstract Path(String) to String {
     
     return parts.join('/');
   }
+  
+  static public var root(default, null):Path = new Path('/');
 }
