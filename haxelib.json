@@ -15,8 +15,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"releasenote": "Correct resolution for protocol-agnostic URLs.",
-	"version": "0.0.1",
+	"releasenote": "Minor improvements.",
+	"version": "0.0.2",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {}
 }
