@@ -89,7 +89,7 @@ abstract Url(UrlParts) {
     if (s.startsWith('data:')) //this is kind of a fast-path
       return new Url( { scheme: 'data', payload: s.substr(5) } );
       
-    var FORMAT = ~/^(([a-zA-Z]+):)?((\/\/(([^@\/]+)@)?(([^\/:]*)(:([0-9]*))?))?([^\?#]*)(\?([^#]*))?(#(.*))?)$/;
+    var FORMAT = ~/^(([a-zA-Z\-]+):)?((\/\/(([^@\/]+)@)?(([^\/:]*)(:([0-9]*))?))?([^\?#]*)(\?([^#]*))?(#(.*))?)$/;
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
     
 		FORMAT.match(s);

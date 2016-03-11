@@ -18,4 +18,9 @@ class TestUrl extends Base {
     assertEquals('back2dos@gmail', mailto.path);
     assertEquals('body=Hello,+world', mailto.query);
   }
+
+  function testChromeExtension() {
+    var ce : Url = 'chrome-extension://test/test.js';
+    assertEquals(ce.scheme, 'chrome-extension');
+  }
 }
