@@ -97,10 +97,14 @@ private class QueryStringParser {
   }
 
   static function trimmedSub(s:String, start:Int, end:Int) {
-    while (s.fastCodeAt(start) <= 32)
+    
+    while (s.fastCodeAt(start) <= 32) 
       start++;
-    while (s.fastCodeAt(end) <= 32)
-      start--;
+    
+    if (end < s.length - 1)
+      while (s.fastCodeAt(end) <= 32) 
+        end--;
+      
     return s.substring(start, end);
   }  
   
