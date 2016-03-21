@@ -7,7 +7,7 @@ import tink.Url;
 class Run {
 	static var tests:Array<TestCase> = [
 		new TestPath(),
-		//new TestQuery(),
+		new TestQuery(),
 		//new TestFile(),
 		new TestUrl()
 	];

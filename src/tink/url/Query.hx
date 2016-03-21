@@ -12,7 +12,7 @@ abstract Query(String) from String to String {
     return parseString(this);
   
   @:to public function toMap():Map<String, String>
-    return [for (p in iterator()) p.a => p.b];
+    return [for (p in iterator()) p.name => p.value];
   
   @:from static function ofObj(v:Dynamic<String>) {
     var ret = new QueryStringBuilder(),
