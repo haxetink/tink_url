@@ -5,6 +5,9 @@ using StringTools;
 
 abstract Path(String) to String {
   
+  public function parts()
+    return [for (p in this.split('/')) if (p != '') p];
+  
   public var absolute(get, never):Bool;
     inline function get_absolute()
       return this.charAt(0) == '/';
