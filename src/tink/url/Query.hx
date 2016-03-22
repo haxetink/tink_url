@@ -27,7 +27,7 @@ abstract Query(String) from String to String {
   static public inline function build():QueryStringBuilder 
     return new QueryStringBuilder();
    
-  static public inline function parseString(s:String, ?sep:String = '&', ?set:String = '=', ?pos:Int = 0)
+  static public inline function parseString(s:String, sep:String = '&', set:String = '=', pos:Int = 0)
     return new QueryStringParser(s, sep, set, pos);
     
 }
