@@ -22,5 +22,6 @@ class TestUrl extends Base {
   function testChromeExtension() {
     var ce : Url = 'chrome-extension://test/test.js';
     assertEquals(ce.scheme, 'chrome-extension');
+    assertEquals(('My-wild-scheme243:blublub' : Url).scheme, 'My-wild-scheme243');
   }
 }
