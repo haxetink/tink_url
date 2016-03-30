@@ -3,7 +3,7 @@ import haxe.DynamicAccess;
 
 using StringTools;
 
-abstract Query(String) from String to String {	
+abstract Query(String) from String to String {  
   
   public inline function parse() 
     return iterator();
