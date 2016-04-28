@@ -15,8 +15,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"releasenote": "Correctly parse all valid scheme names.",
-	"version": "0.0.3",
+	"releasenote": "Expose query string iterator.",
+	"version": "0.0.4",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {}
 }
