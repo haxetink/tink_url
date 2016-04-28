@@ -8,7 +8,7 @@ abstract Query(String) from String to String {
   public inline function parse() 
     return iterator();
   
-  inline function iterator() 
+  public inline function iterator() 
     return parseString(this);
   
   @:to public function toMap():Map<String, String>
