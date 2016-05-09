@@ -16,14 +16,22 @@ abstract Host(String) to String {
   inline function get_name()
     return
       if (this == null) null;
-      else this.split(':')[0];
+      else switch this.split(']') {
+          case [v]: v.split(':')[0]; // ipv4
+          case [v, _]: v + ']'; // ipv6
+          default: throw 'assert';
+      }
       
   inline function get_port()
     return
       if (this == null) null;
       else 
-        switch this.split(':')[1] {
-          case null: null;
-          case v: Std.parseInt(v);
+        switch this.split(']') {
+          case [v] | [_, v]: 
+              switch v.split(':')[1] {
+                  case null: null;
+                  case p: Std.parseInt(p);
+              }
+          default: throw 'assert';
         }
 }
