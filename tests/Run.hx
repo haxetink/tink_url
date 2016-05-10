@@ -9,7 +9,8 @@ class Run {
     new TestPath(),
     new TestQuery(),
     //new TestFile(),
-    new TestUrl()
+    new TestUrl(),
+    new TestHost(),
   ];
   static function main() {
     
