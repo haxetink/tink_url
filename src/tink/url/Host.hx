@@ -11,6 +11,7 @@ abstract Host(String) to String {
   public inline function new(name:String, ?port:Int)
     this = 
       if (port == null) name;
+      else if (port > 65535 || port <= 0) throw 'Invalid port';
       else '$name:$port';
       
   inline function get_name()

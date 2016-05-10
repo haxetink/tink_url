@@ -87,7 +87,7 @@ abstract Url(UrlParts) {
     if (s.startsWith('data:')) //this is kind of a fast-path
       return new Url( { scheme: 'data', payload: s.substr(5) } );
     
-    var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-]*):)?((\/\/(([^@\/]+)@)?([^\/]*))?([^\?#]*)(\?([^#]*))?(#(.*))?)$/;
+    var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-]*):)?((\/\/(([^@\/]+)@)?([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)$/;
     var HOST = ~/^(\[(.*)\]|([^:]*))(:(\d*))?$/;  
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
     
@@ -103,7 +103,15 @@ abstract Url(UrlParts) {
                   case [null, ipv6]: '[$ipv6]';
                   case _: throw 'assert';
               }
-              new Host(host, Std.parseInt(HOST.matched(5)));
+              var port = switch HOST.matched(5) {
+                  case null: null;
+                  case v: 
+                      switch Std.parseInt(v) {
+                          case null: throw 'Invalid port';
+                          case p: p;
+                      }
+              }
+              new Host(host, port);
             }];
     }
     var path = FORMAT.matched(PATH).urlDecode();
