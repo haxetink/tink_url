@@ -15,10 +15,10 @@
 	"contributors": [
 		"back2dos"
 	],
-	"releasenote": "Expose query string iterator.",
-	"version": "0.0.4",
+	"releasenote": "IPv6, multihost URLs, improve null safety.",
+	"version": "0.1.0",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {
-    "tink_core": ""
-  }
+		"tink_core": ""
+	}
 }
