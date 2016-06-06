@@ -1,5 +1,7 @@
 package tink.url;
+
 import haxe.DynamicAccess;
+import tink.core.Named;
 
 using StringTools;
 
@@ -49,17 +51,7 @@ abstract QueryStringBuilder(StringBuf) {
   }
 }
 
-class QueryStringParam {
-  
-  public var name(default, null):String;
-  public var value(default, null):String;
-  
-  public function new(name, value) {
-    this.name = name;
-    this.value = value;
-  }
-  
-}
+class QueryStringParam = Named<String>;
 
 private class QueryStringParser {
   
@@ -69,7 +61,10 @@ private class QueryStringParser {
   var pos:Int;
   
   public function new(s, sep, set, pos) {
-    this.s = s;
+    this.s = switch s {
+      case null: '';
+      default: s;
+    }
     this.sep = sep;
     this.set = set;
     this.pos = pos;

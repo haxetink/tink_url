@@ -18,5 +18,7 @@
 	"releasenote": "Expose query string iterator.",
 	"version": "0.0.4",
 	"url": "http://haxetink.org/tink_url",
-	"dependencies": {}
+	"dependencies": {
+    "tink_core": ""
+  }
 }
