@@ -4,6 +4,10 @@ import haxe.unit.TestCase;
 import haxe.unit.TestRunner;
 import tink.Url;
 
+#if flash
+typedef Sys = flash.system.System;
+#end
+
 class Run {
   static var tests:Array<TestCase> = [
     new TestPath(),
@@ -17,6 +21,10 @@ class Run {
     var runner = new TestRunner();
     for (test in tests)
       runner.add(test);
-    runner.run();
+      
+    Sys.exit(
+      if (runner.run()) 0
+      else 500
+    );
   }
 }
