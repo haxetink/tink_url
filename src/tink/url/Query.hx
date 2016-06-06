@@ -49,7 +49,7 @@ abstract QueryStringBuilder(Array<String>) {
     return this.join('&');
 }
 
-class QueryStringParam = Named<String>;
+typedef QueryStringParam = Named<String>;
 
 private class QueryStringParser {
   
