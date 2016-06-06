@@ -10,12 +10,10 @@ abstract Url(UrlParts) {
   static inline var SCHEME = 2;
   static inline var PAYLOAD = 3;
   static inline var AUTH = 6;
-  static inline var HOST = 7;
-  static inline var HOSTNAME = 8;
-  static inline var PORT = 10;
-  static inline var PATH = 11;
-  static inline var QUERY = 13;
-  static inline var HASH = 15;
+  static inline var HOSTNAMES = 7;
+  static inline var PATH = 8;
+  static inline var QUERY = 10;
+  static inline var HASH = 12;
   
   inline function new(parts)
     this = parts;
@@ -88,22 +86,44 @@ abstract Url(UrlParts) {
     
     if (s.startsWith('data:')) //this is kind of a fast-path
       return new Url( { scheme: 'data', payload: s.substr(5) } );
-      
-    var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-]*):)?((\/\/(([^@\/]+)@)?(([^\/:]*)(:([0-9]*))?))?([^\?#]*)(\?([^#]*))?(#(.*))?)$/;
+    
+    var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-]*):)?((\/\/(([^@\/]+)@)?([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)$/;
+    var HOST = ~/^(\[(.*)\]|([^:]*))(:(\d*))?$/;  
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
     
     FORMAT.match(s);
     
-    var host:Host = new Host(FORMAT.matched(8), Std.parseInt(FORMAT.matched(10)));
+    var hosts = switch FORMAT.matched(HOSTNAMES) {
+        case null: [];
+        case v:
+            [for(host in v.split(',')) {
+              HOST.match(host);
+              var host = switch [HOST.matched(3), HOST.matched(2)] {
+                  case [ipv4, null]: ipv4;
+                  case [null, ipv6]: '[$ipv6]';
+                  case _: throw 'assert';
+              }
+              var port = switch HOST.matched(5) {
+                  case null: null;
+                  case v: 
+                      switch Std.parseInt(v) {
+                          case null: throw 'Invalid port';
+                          case p: p;
+                      }
+              }
+              new Host(host, port);
+            }];
+    }
     var path = FORMAT.matched(PATH).urlDecode();
     
-    if (host != null && path.charAt(0) != '/')
+    if (hosts.length > 0 && path.charAt(0) != '/')
       path = '/$path';
       
     return new Url({
       scheme: FORMAT.matched(SCHEME),
       payload: FORMAT.matched(PAYLOAD),
-      host: host,
+      host: hosts[0],
+      hosts: hosts,
       auth: cast FORMAT.matched(AUTH),
       path: path,
       query: FORMAT.matched(QUERY),
@@ -118,6 +138,7 @@ private typedef UrlParts = {
   
   @:optional var query(default, null):Query;
   @:optional var host(default, null):Host;
+  @:optional var hosts(default, null):Array<Host>;
   @:optional var auth(default, null):Auth;
   @:optional var scheme(default, null):String;
   @:optional var hash(default, null):String;

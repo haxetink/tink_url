@@ -34,21 +34,19 @@ abstract Query(String) from String to String {
     
 }
 
-@:forward(toString)
-abstract QueryStringBuilder(StringBuf) {
+abstract QueryStringBuilder(Array<String>) {
   
   public inline function new() {
-    this = new StringBuf();
+    this = [];
   }
   
-  public inline function add(name:String, value:String) {
-    
-    this.add(name.urlEncode());
-    this.addChar('='.code);
-    this.add(value.urlEncode());
-    
-    return this;
+  public inline function add(name:String, value:String):QueryStringBuilder {
+    this.push(name.urlEncode() + '=' + value.urlEncode());
+    return cast this;
   }
+  
+  public inline function toString()
+    return this.join('&');
 }
 
 class QueryStringParam = Named<String>;
