@@ -58,7 +58,7 @@ abstract Url(UrlParts) {
         payload.add('//$auth@$host'); 
     }
     
-    payload.add((parts.path : String).split('/').map(StringTools.urlEncode).join('/'));
+    payload.add((parts.path : String).split('/').join('/'));
     
     switch parts.query {
       case null:
@@ -114,7 +114,7 @@ abstract Url(UrlParts) {
               new Host(host, port);
             }];
     }
-    var path = FORMAT.matched(PATH).urlDecode();
+    var path = FORMAT.matched(PATH);
     
     if (hosts.length > 0 && path.charAt(0) != '/')
       path = '/$path';
