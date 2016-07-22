@@ -46,28 +46,28 @@ abstract Url(UrlParts) {
       
   static function makePayload(parts:UrlParts) {
     
-    var payload = new StringBuf();
+    var payload = '';
             
     switch parts {
       case { host: null, auth: null }:
       case { auth: null, host: host }:
-        payload.add('//$host');
+        payload += '//$host';
       case { auth: auth, host: null }:
-        payload.add('//$auth@');
+        payload += '//$auth@';
       case { auth: auth, host: host } :
-        payload.add('//$auth@$host'); 
+        payload += '//$auth@$host'; 
     }
     
-    payload.add((parts.path : String).split('/').map(StringTools.urlEncode).join('/'));
+    payload += parts.path;
     
     switch parts.query {
       case null:
-      case v: payload.add('?$v');
+      case v: payload += '?$v';
     }
     
     switch parts.hash {
       case null:
-      case v: payload.add('#$v');
+      case v: payload += '#$v';
     }
     
     @:privateAccess parts.payload = payload.toString();
@@ -114,7 +114,7 @@ abstract Url(UrlParts) {
               new Host(host, port);
             }];
     }
-    var path = FORMAT.matched(PATH).urlDecode();
+    var path = FORMAT.matched(PATH);
     
     if (hosts.length > 0 && path.charAt(0) != '/')
       path = '/$path';

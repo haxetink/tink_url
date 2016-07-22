@@ -6,7 +6,7 @@ using StringTools;
 abstract Path(String) to String {
   
   public function parts()
-    return [for (p in this.split('/')) if (p != '') p];//TODO: consider using a cache
+    return [for (p in this.split('/')) if (p != '') new Portion(p)];//TODO: consider using a cache
   
   public var absolute(get, never):Bool;
     inline function get_absolute()

@@ -10,13 +10,13 @@ abstract Query(String) from String to String {
   public inline function parse() 
     return iterator();
   
-  public inline function iterator() 
+  @:to public inline function iterator() 
     return parseString(this);
   
-  @:to public function toMap():Map<String, String>
-    return [for (p in iterator()) p.name => p.value];
+  @:to public function toMap():Map<String, Portion>
+    return [for (p in iterator()) p.name.toString() => p.value];
   
-  @:from static function ofObj(v:Dynamic<String>) {
+  @:from static function ofObj(v:Dynamic<String>):Query {
     var ret = new QueryStringBuilder(),
         v:DynamicAccess<String> = v;
         
@@ -40,8 +40,8 @@ abstract QueryStringBuilder(Array<String>) {
     this = [];
   }
   
-  public inline function add(name:String, value:String):QueryStringBuilder {
-    this.push(name.urlEncode() + '=' + value.urlEncode());
+  public inline function add(name:Portion, value:Portion):QueryStringBuilder {
+    this.push(name.raw + '=' + value.raw);
     return cast this;
   }
   
@@ -49,7 +49,8 @@ abstract QueryStringBuilder(Array<String>) {
     return this.join('&');
 }
 
-typedef QueryStringParam = Named<String>;
+//typedef QueryStringParam = Named<String>;
+typedef QueryStringParam = NamedWith<Portion, Portion>;
 
 private class QueryStringParser {
   
@@ -84,21 +85,21 @@ private class QueryStringParser {
     
     return 
       if (split == -1 || split > next)
-        new QueryStringParam(trimmedSub(s, start, next).urlDecode(), '');
+        new QueryStringParam(trimmedSub(s, start, next), '');
       else
-        new QueryStringParam(trimmedSub(s, start, split).urlDecode(), trimmedSub(s, split + set.length, next).urlDecode());
+        new QueryStringParam(trimmedSub(s, start, split), trimmedSub(s, split + set.length, next));
   }
 
   static function trimmedSub(s:String, start:Int, end:Int) {
     
-    while (s.fastCodeAt(start) <= 32) 
+    while (s.fastCodeAt(start) < 33) 
       start++;
     
     if (end < s.length - 1)
-      while (s.fastCodeAt(end) <= 32) 
+      while (s.fastCodeAt(end-1) < 33) 
         end--;
       
-    return s.substring(start, end);
+    return new Portion(s.substring(start, end));
   }  
   
 }

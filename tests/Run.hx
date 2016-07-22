@@ -12,9 +12,9 @@ class Run {
   static var tests:Array<TestCase> = [
     new TestPath(),
     new TestQuery(),
-    //new TestFile(),
     new TestUrl(),
     new TestHost(),
+    new TestPortion(),
   ];
   static function main() {
     
