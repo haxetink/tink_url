@@ -49,8 +49,7 @@ abstract QueryStringBuilder(Array<String>) {
     return this.join('&');
 }
 
-//typedef QueryStringParam = Named<String>;
-typedef QueryStringParam = NamedWith<Portion, Portion>;
+typedef QueryStringParam = Named<Portion>;
 
 private class QueryStringParser {
   
