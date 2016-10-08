@@ -19,6 +19,6 @@
 	"version": "0.1.0",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {
-		"tink_core": ""
+		"tink_stringly": ""
 	}
 }

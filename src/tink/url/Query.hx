@@ -47,6 +47,9 @@ abstract QueryStringBuilder(Array<String>) {
   
   public inline function toString()
     return this.join('&');
+    
+  public function copy():QueryStringBuilder
+    return cast this.copy();
 }
 
 typedef QueryStringParam = Named<Portion>;

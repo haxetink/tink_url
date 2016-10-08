@@ -11,6 +11,9 @@ abstract Portion(String) {
       
   public inline function new(v:String)
     this = v;
+    
+  @:to function stringly():tink.Stringly
+    return toString();
       
   @:to public function toString()
     return 
@@ -19,4 +22,9 @@ abstract Portion(String) {
     
   @:from static function ofString(s:String)
     return new Portion(if (s == null) '' else s.urlEncode());
+    
+  #if macro
+  @:to public function toExpr()
+    return macro new tink.url.Portion($v{this});
+  #end
 }
