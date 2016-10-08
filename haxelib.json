@@ -15,8 +15,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"releasenote": "IPv6, multihost URLs, improve null safety.",
-	"version": "0.1.0",
+	"releasenote": "Improved path handling.",
+	"version": "0.2.0",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {
 		"tink_stringly": ""
