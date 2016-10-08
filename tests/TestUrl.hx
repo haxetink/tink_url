@@ -70,4 +70,10 @@ class TestUrl extends Base {
       assertEquals('www.google.com', url.host);
       assertEquals('hash', url.hash);
   }
+  
+  function testLazyPathTranscoding() {
+    var url : tink.Url = "http://test.com/foo+bar";
+    var same = url.resolve("");
+    assertEquals( Std.string(url) , Std.string(same) );    
+  }
 }
