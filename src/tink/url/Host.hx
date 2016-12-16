@@ -35,4 +35,7 @@ abstract Host(String) to String {
               }
           default: throw 'assert';
         }
+        
+  public inline function toString():String
+    return this;
 }

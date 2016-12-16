@@ -26,6 +26,9 @@ abstract Query(String) from String to String {
     return ret.toString();
   }    
   
+  public inline function toString():String
+    return this;
+    
   static public inline function build():QueryStringBuilder 
     return new QueryStringBuilder();
    
