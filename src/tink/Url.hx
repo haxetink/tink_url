@@ -87,7 +87,7 @@ abstract Url(UrlParts) {
     if (s.startsWith('data:')) //this is kind of a fast-path
       return new Url( { scheme: 'data', payload: s.substr(5) } );
     
-    var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-]*):)?((\/\/(([^@\/]+)@)?([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)$/;
+    var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-+.]*):)?((\/\/(([^@\/]+)@)?([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)$/;
     var HOST = ~/^(\[(.*)\]|([^:]*))(:(\d*))?$/;  
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
     
@@ -130,12 +130,29 @@ abstract Url(UrlParts) {
       hash: FORMAT.matched(HASH)
     });    
   }
+
+  static public function make(parts:UrlArgs):Url {
+    var parts:UrlParts = {
+      payload: '',
+      path: parts.path,
+      query: parts.query,
+      host: parts.host,
+      hosts: parts.hosts,
+      auth: parts.auth,
+      scheme: parts.scheme,
+      hash: parts.hash,
+    };
+    makePayload(parts);
+    return new Url(parts);
+  }
 }
 
-private typedef UrlParts = {
-  @:optional var path(default, null):Path;
+private typedef UrlParts = {>UrlArgs,
   var payload(default, null):String;
-  
+}
+
+private typedef UrlArgs = {
+  @:optional var path(default, null):Path;
   @:optional var query(default, null):Query;
   @:optional var host(default, null):Host;
   @:optional var hosts(default, null):Array<Host>;
