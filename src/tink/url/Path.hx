@@ -67,5 +67,8 @@ abstract Path(String) to String {
     return parts.join('/');
   }
   
+  public inline function toString():String
+    return this;
+  
   static public var root(default, null):Path = new Path('/');
 }

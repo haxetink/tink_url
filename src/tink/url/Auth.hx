@@ -21,4 +21,6 @@ abstract Auth(String) to String {
       if (this == null) null;
       else this.split(':')[1];
 
+  public inline function toString():String
+    return this;
 }
