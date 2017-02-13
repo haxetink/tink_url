@@ -8,13 +8,13 @@ abstract Host(String) to String {
   public var name(get, never):Null<String>;
   public var port(get, never):Null<Int>;
   
-  public inline function new(name:String, ?port:Int)
+  public function new(name:String, ?port:Int)
     this = 
       if (port == null) name;
       else if (port > 65535 || port <= 0) throw 'Invalid port';
       else '$name:$port';
       
-  inline function get_name()
+  function get_name()
     return
       if (this == null) null;
       else switch this.split(']') {
@@ -23,7 +23,7 @@ abstract Host(String) to String {
           default: throw 'assert';
       }
       
-  inline function get_port()
+  function get_port()
     return
       if (this == null) null;
       else 
@@ -35,7 +35,7 @@ abstract Host(String) to String {
               }
           default: throw 'assert';
         }
-        
-  public inline function toString():String
+  
+ public inline function toString():String
     return this;
 }

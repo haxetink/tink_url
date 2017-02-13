@@ -97,6 +97,8 @@ private class QueryStringParser {
 
   static function trimmedSub(s:String, start:Int, end:Int) {
     
+    if(start >= s.length) return new Portion('');
+    
     while (s.fastCodeAt(start) < 33) 
       start++;
     
