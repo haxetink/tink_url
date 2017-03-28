@@ -15,8 +15,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"releasenote": "Improved path handling.",
-	"version": "0.2.0",
+	"releasenote": "Various minor additions.",
+	"version": "0.3.0",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {
 		"tink_stringly": ""
