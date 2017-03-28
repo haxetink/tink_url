@@ -14,7 +14,7 @@ abstract Query(String) from String to String {
     return parseString(this);
   
   @:to public function toMap():Map<String, Portion>
-    return [for (p in iterator()) p.name.toString() => p.value];
+    return [for (p in iterator()) (p.name:String).toString() => p.value]; // cast to string explicitly to help 3.2.1 cpp
   
   @:from static function ofObj(v:Dynamic<String>):Query {
     var ret = new QueryStringBuilder(),
