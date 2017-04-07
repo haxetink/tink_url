@@ -15,6 +15,10 @@ abstract Url(UrlParts) {
   static inline var QUERY = 10;
   static inline var HASH = 12;
   
+  public var pathWithQuery(get, never):String;
+    inline function get_pathWithQuery()
+      return if(this.query == null) this.path else this.path + '?' + this.query;
+  
   inline function new(parts)
     this = parts;
     
