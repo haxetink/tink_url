@@ -15,8 +15,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"releasenote": "Various minor additions.",
-	"version": "0.3.0",
+	"releasenote": "Add pathWithQuery.",
+	"version": "0.3.1",
 	"url": "http://haxetink.org/tink_url",
 	"dependencies": {
 		"tink_stringly": ""
