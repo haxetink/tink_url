@@ -5,7 +5,7 @@ using StringTools;
 
 abstract Path(String) to String {
   
-  public function parts()
+  public function parts():Array<String>
     return [for (p in this.split('/')) if (p != '') new Portion(p)];//TODO: consider using a cache
   
   public var absolute(get, never):Bool;
