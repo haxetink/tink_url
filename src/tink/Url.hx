@@ -159,7 +159,7 @@ private typedef UrlArgs = {
   @:optional var path(default, null):Path;
   @:optional var query(default, null):Query;
   @:optional var host(default, null):Host;
-  @:optional var hosts(default, null):Array<Host>;
+  @:optional var hosts(default, null):Iterable<Host>;
   @:optional var auth(default, null):Auth;
   @:optional var scheme(default, null):String;
   @:optional var hash(default, null):String;
