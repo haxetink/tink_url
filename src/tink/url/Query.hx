@@ -48,8 +48,8 @@ abstract QueryStringBuilder(Array<String>) {
     return cast this;
   }
   
-  public inline function toString()
-    return this.join('&');
+  public inline function toString(?sep:String = '&')
+    return this.join(sep);
     
   public function copy():QueryStringBuilder
     return cast this.copy();
