@@ -9,6 +9,22 @@ abstract Query(String) from String to String {
   
   public inline function parse() 
     return iterator();
+    
+  public function upsert(name:String, value:Portion):Query {
+    var ret = new QueryStringBuilder();
+    
+    var updated = false;
+    for(p in iterator()) {
+      var matched = p.name == name;
+      ret.add(p.name, matched ? value : p.value);
+      if(matched) updated = true;
+    }
+    
+    if(!updated) ret.add(name, value);
+    
+    return ret.toString();
+  }
+  
   
   @:to public inline function iterator() 
     return parseString(this);
