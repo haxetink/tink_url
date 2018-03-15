@@ -83,9 +83,16 @@ abstract Url(UrlParts) {
       default: '${this.scheme}:${this.payload}';
     }
   
-  @:from static public function parse(s:String):Url {
+  @:from static function fromString(s:String):Url return parse(s);
+  static function noop(_) {}
+  static public function parse(s:String, ?onError:String->Void):Url {
+    
     if (s == null) 
       return parse('');
+
+    if (onError == null)
+      onError = noop;
+
     s = s.trim();
     
     if (s.startsWith('data:')) //this is kind of a fast-path
@@ -105,13 +112,17 @@ abstract Url(UrlParts) {
               var host = switch [HOST.matched(3), HOST.matched(2)] {
                   case [ipv4, null]: ipv4;
                   case [null, ipv6]: '[$ipv6]';
-                  case _: throw 'assert';
+                  case _: 
+                    onError('invalid host $host'); 
+                    null;
               }
               var port = switch HOST.matched(5) {
                   case null: null;
                   case v: 
                       switch Std.parseInt(v) {
-                          case null: throw 'Invalid port';
+                          case null: 
+                            onError('invalid port $v'); 
+                            null;
                           case p: p;
                       }
               }
