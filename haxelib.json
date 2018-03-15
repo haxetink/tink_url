@@ -1,6 +1,16 @@
 {
 	"name": "tink_url",
-	"license": "MIT",
+	"description": "URL and path handling made bearable",
+	"classPath": "src",
+	"dependencies": {
+		"tink_stringly": ""
+	},
+	"url": "http://haxetink.org/tink_url",
+	"contributors": [
+		"back2dos"
+	],
+	"version": "0.3.2",
+	"releasenote": "Don't throw when parsing.",
 	"tags": [
 		"tink",
 		"cross",
@@ -10,15 +20,5 @@
 		"parsing",
 		"normalization"
 	],
-	"classPath": "src",
-	"description": "URL and path handling made bearable",
-	"contributors": [
-		"back2dos"
-	],
-	"releasenote": "Add pathWithQuery.",
-	"version": "0.3.1",
-	"url": "http://haxetink.org/tink_url",
-	"dependencies": {
-		"tink_stringly": ""
-	}
+	"license": "MIT"
 }
