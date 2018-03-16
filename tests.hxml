@@ -1,3 +1,3 @@
 -cp ./tests/
--lib tink_core
+-lib hx3compat
 -main Run

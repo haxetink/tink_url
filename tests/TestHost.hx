@@ -12,6 +12,16 @@ class TestHost extends Base {
     assertEquals('example.com', url.host.name);
     assertEquals(80, url.host.port);
   }
+
+  function testInvalid() {
+    var url:Url = 'http://example.com:invalid/foo/bar';    
+    assertEquals('example.com', url.host);
+    var url:Url = 'file:///foo/bar';    
+    assertEquals('file', url.scheme);
+    assertEquals('', url.host);
+    var url:Url = '/foo/bar';
+    assertEquals(null, url.host);
+  }
   
   function testIpv6() {
     var url:Url = 'http://[::1]/foo/bar';

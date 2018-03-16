@@ -99,7 +99,7 @@ abstract Url(UrlParts) {
       return new Url( { scheme: 'data', payload: s.substr(5) } );
     
     var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-+.]*):)?((\/\/(([^@\/]+)@)?([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)$/;
-    var HOST = ~/^(\[(.*)\]|([^:]*))(:(\d*))?$/;  
+    var HOST = ~/^(\[(.*)\]|([^:]*))(:(.*))?$/;  
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
     
     FORMAT.match(s);
