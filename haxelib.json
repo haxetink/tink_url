@@ -9,8 +9,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"version": "0.3.2",
-	"releasenote": "Don't throw when parsing.",
+	"version": "0.3.3",
+	"releasenote": "Handle  more invalid cases.",
 	"tags": [
 		"tink",
 		"cross",
