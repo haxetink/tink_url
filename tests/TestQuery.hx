@@ -14,17 +14,23 @@ class TestQuery extends Base {
       assertEquals('key1=value1&key2=value2', q.toString());
   }
   
-  function testUpsert() {
+  function testWith() {
     var q:Query = 'a=1&b=2';
-    q = q.upsert('a', '3');
+    q = q.with(['a' => '3']);
     var map = q.toMap();
     assertEquals('3', map['a']);
     assertEquals('2', map['b']);
     
-    q = q.upsert('c', '4');
+    q = q.with(['c' => '4']);
     var map = q.toMap();
     assertEquals('3', map['a']);
     assertEquals('2', map['b']);
     assertEquals('4', map['c']);
+    
+    q = q.with(['a' => '1', 'c' => '1']);
+    var map = q.toMap();
+    assertEquals('1', map['a']);
+    assertEquals('2', map['b']);
+    assertEquals('1', map['c']);
   }
 }

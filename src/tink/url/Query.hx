@@ -10,17 +10,21 @@ abstract Query(String) from String to String {
   public inline function parse() 
     return iterator();
     
-  public function upsert(name:String, value:Portion):Query {
+  public function with(values:Map<Portion, Portion>):Query {
     var ret = new QueryStringBuilder();
     
-    var updated = false;
+    var insert = [for(key in values.keys()) key];
+    
     for(p in iterator()) {
-      var matched = p.name == name;
-      ret.add(p.name, matched ? value : p.value);
-      if(matched) updated = true;
+      if(values.exists(p.name)) {
+        ret.add(p.name, values[p.name]);
+        insert.remove(p.name);
+      } else {
+        ret.add(p.name, p.value);
+      }
     }
     
-    if(!updated) ret.add(name, value);
+    for(name in insert) ret.add(name, values[name]);
     
     return ret.toString();
   }
