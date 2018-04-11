@@ -1,0 +1,3 @@
+-cp src
+-lib tink_stringly
+-D tink_url
