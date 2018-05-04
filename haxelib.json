@@ -9,8 +9,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"version": "0.3.3",
-	"releasenote": "Handle  more invalid cases.",
+	"version": "0.4.0",
+	"releasenote": "Revised Auth.",
 	"tags": [
 		"tink",
 		"cross",
