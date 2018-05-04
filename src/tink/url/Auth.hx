@@ -22,5 +22,6 @@ abstract Auth(String) to String {
       else this.split(':')[1];
 
   public inline function toString():String
-    return this;
+    return if (this == null) '' else '$this@';
+    
 }

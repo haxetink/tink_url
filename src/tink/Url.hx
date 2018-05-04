@@ -57,9 +57,9 @@ abstract Url(UrlParts) {
       case { auth: null, host: host }:
         payload += '//$host';
       case { auth: auth, host: null }:
-        payload += '//$auth@';
+        payload += '//$auth';
       case { auth: auth, host: host } :
-        payload += '//$auth@$host'; 
+        payload += '//$auth$host'; 
     }
     
     payload += parts.path;
