@@ -4,7 +4,7 @@ package tink.url;
  * Represents inline authentication data, e.g. `http://user:password@somehost.tld/...`
  * May be accessed when null.
  */
-abstract Auth(String) to String {
+abstract Auth(String) {
   public var user(get, never):Null<String>;
   public var password(get, never):Null<String>;
 
@@ -21,7 +21,7 @@ abstract Auth(String) to String {
       if (this == null) null;
       else this.split(':')[1];
 
-  public inline function toString():String
+  @:to public inline function toString():String
     return if (this == null) '' else '$this@';
     
 }

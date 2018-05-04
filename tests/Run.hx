@@ -15,6 +15,7 @@ class Run {
     new TestUrl(),
     new TestHost(),
     new TestPortion(),
+    new TestAuth(),
   ];
   static function main() {
     
