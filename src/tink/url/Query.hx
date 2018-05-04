@@ -9,6 +9,26 @@ abstract Query(String) from String to String {
   
   public inline function parse() 
     return iterator();
+    
+  public function with(values:Map<Portion, Portion>):Query {
+    var ret = new QueryStringBuilder();
+    
+    var insert = [for(key in values.keys()) key];
+    
+    for(p in iterator()) {
+      if(values.exists(p.name)) {
+        ret.add(p.name, values[p.name]);
+        insert.remove(p.name);
+      } else {
+        ret.add(p.name, p.value);
+      }
+    }
+    
+    for(name in insert) ret.add(name, values[name]);
+    
+    return ret.toString();
+  }
+  
   
   @:to public inline function iterator() 
     return parseString(this);

@@ -160,6 +160,13 @@ abstract Url(UrlParts) {
     makePayload(parts);
     return new Url(parts);
   }
+  
+  #if tink_json
+  @:from public static function fromRepresentation(v:tink.json.Representation<String>)
+    return Url.parse(v.get());
+  @:to public function toRepresentation():tink.json.Representation<String>
+    return new tink.json.Representation(toString());
+  #end
 }
 
 private typedef UrlParts = {>UrlArgs,
