@@ -4,6 +4,10 @@ import tink.Url;
 
 @:asserts
 class TestUrl extends Base {
+  
+  #if (cpp && (haxe_ver >= 4))
+    // https://github.com/HaxeFoundation/haxe/issues/7536
+  #else
   public function testResolve() {
     var url:Url = 'http://example.com/foo/bar';
     asserts.assert(url.resolve('baz') == 'http://example.com/foo/baz');
@@ -14,6 +18,7 @@ class TestUrl extends Base {
     asserts.assert(url.resolve('https://baz') == 'https://baz');
     return asserts.done();
   }
+  #end
   
   public function testMailto() {
     var mailto:Url = 'mailto:back2dos@gmail?body=Hello,+world';
@@ -76,10 +81,15 @@ class TestUrl extends Base {
       return asserts.done();
   }
   
+  
+  #if (cpp && (haxe_ver >= 4))
+    // https://github.com/HaxeFoundation/haxe/issues/7536
+  #else
   public function testLazyPathTranscoding() {
     var url : tink.Url = "http://test.com/foo+bar";
     var same = url.resolve("");
     asserts.assert(Std.string(same)  ==  Std.string(url) );    
     return asserts.done();
   }
+  #end
 }
