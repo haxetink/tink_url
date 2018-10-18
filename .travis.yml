@@ -1,32 +1,52 @@
 sudo: required
 dist: trusty
 
-language: haxe
+stages:
+  - test
+  - deploy
 
-haxe:
-  - "3.4.0"
-  - development
-  
-matrix:
-  allow_failures:
-    - haxe: development
-    
-install:
-  - haxelib install travix
-  - haxelib run travix install
+language: node_js
+node_js: 8
 
-script:
-  - haxelib run travix interp
-  - haxelib run travix neko
-  - haxelib run travix python
-  - haxelib run travix node
-  # - haxelib run travix flash
-  - haxelib run travix java
-  - haxelib run travix cpp
-  - haxelib run travix cs
-  - haxelib run travix php
+cache:
+  directories:
+    - $HOME/haxe
+
+os:
+  - linux
+  # - osx
+
 env:
-  - secure: "GJJgZRNPiyQaqiSpstAGI9S2+q+zQiF+S0MWHiMTOXFOJ0irtrVCRZbTqYd1p+yVyFtShrRXV8U+/0AbM81WR+kVM732Db5m+3w7s7Vbv436NDvU10h5gHNQ6l9c7eKSY1UW+p2p4liHEA737x9HFexE1QFYdx/qp7LVpoDf+xY="
+  - HAXE_VERSION=3.4.7
+  - HAXE_VERSION=4.0.0-preview.4
+  
+install:
+  - npm i -g lix
+  - lix install haxe $HAXE_VERSION
+  - lix download
+  
+script:
+  - lix run travix interp
+  - lix run travix neko
+  - lix run travix python
+  - lix run travix node
+  # - lix run travix flash
+  - lix run travix java
+  - lix run travix cpp
+  - lix run travix cs
+  - lix run travix php
 
-after_success:
-- haxelib run travix release
+jobs:
+  include:
+    # - stage: test # should uncomment this when there is no matrix above (e.g. only one os, one env, etc)
+    - stage: deploy
+      os: linux
+      install:
+        - npm i -g lix
+        - lix download
+      script: skip
+      env:
+        secure: GJJgZRNPiyQaqiSpstAGI9S2+q+zQiF+S0MWHiMTOXFOJ0irtrVCRZbTqYd1p+yVyFtShrRXV8U+/0AbM81WR+kVM732Db5m+3w7s7Vbv436NDvU10h5gHNQ6l9c7eKSY1UW+p2p4liHEA737x9HFexE1QFYdx/qp7LVpoDf+xY=
+      after_success:
+        - lix run travix install
+        - lix run travix release
