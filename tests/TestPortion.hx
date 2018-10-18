@@ -4,12 +4,14 @@ import tink.Url;
 import tink.url.Portion;
 using StringTools;
 
+@:asserts
 class TestPortion extends Base {
   
-  function testNumbers() {
+  public function testNumbers() {
     
     var portion = new Portion('%205%30.7e%2B85');
-    assertEquals(50.7e85, Std.parseFloat(portion));
+    asserts.assert(Std.parseFloat(portion) == 50.7e85);
+    return asserts.done();
   }
   
 }

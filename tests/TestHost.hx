@@ -2,71 +2,78 @@ package ;
 
 import tink.Url;
 
+@:asserts
 class TestHost extends Base {
-  function testIpv4() {
+  public function testIpv4() {
     var url:Url = 'http://example.com/foo/bar';
-    assertEquals('example.com', url.host);
+    asserts.assert(url.host == 'example.com');
     
     var url:Url = 'http://example.com:80/foo/bar';
-    assertEquals('example.com:80', url.host);
-    assertEquals('example.com', url.host.name);
-    assertEquals(80, url.host.port);
+    asserts.assert(url.host == 'example.com:80');
+    asserts.assert(url.host.name == 'example.com');
+    asserts.assert(url.host.port == 80);
+    return asserts.done();
   }
 
-  function testInvalid() {
+  public function testInvalid() {
     var url:Url = 'http://example.com:invalid/foo/bar';    
-    assertEquals('example.com', url.host);
+    asserts.assert(url.host == 'example.com');
     var url:Url = 'file:///foo/bar';    
-    assertEquals('file', url.scheme);
-    assertEquals('', url.host);
+    asserts.assert(url.scheme == 'file');
+    asserts.assert(url.host == '');
     var url:Url = '/foo/bar';
-    assertEquals(null, url.host);
+    asserts.assert(url.host == null);
+    return asserts.done();
   }
   
-  function testIpv6() {
+  public function testIpv6() {
     var url:Url = 'http://[::1]/foo/bar';
-    assertEquals('[::1]', url.host);
+    asserts.assert(url.host == '[::1]');
     
     var url:Url = 'http://[::1]:80/foo/bar';
-    assertEquals('[::1]:80', url.host);
-    assertEquals('[::1]', url.host.name);
-    assertEquals(80, url.host.port);
+    asserts.assert(url.host == '[::1]:80');
+    asserts.assert(url.host.name == '[::1]');
+    asserts.assert(url.host.port == 80);
+    return asserts.done();
   }
   
-  function testMultiIpv4() {
+  public function testMultiIpv4() {
     var url:Url = 'http://example.com,foo.com/foo/bar';
-    assertEquals('example.com', url.host);
-    assertEquals('example.com', getHost(url.hosts, 0));
-    assertEquals('foo.com', getHost(url.hosts, 1));
+    asserts.assert(url.host == 'example.com');
+    asserts.assert(getHost(url.hosts, 0) == 'example.com');
+    asserts.assert(getHost(url.hosts, 1) == 'foo.com');
     
     var url:Url = 'http://example.com:80,foo.com:81/foo/bar';
-    assertEquals('example.com:80', url.host);
-    assertEquals('example.com:80', getHost(url.hosts, 0));
-    assertEquals('foo.com:81', getHost(url.hosts, 1));
+    asserts.assert(url.host == 'example.com:80');
+    asserts.assert(getHost(url.hosts, 0) == 'example.com:80');
+    asserts.assert(getHost(url.hosts, 1) == 'foo.com:81');
+    return asserts.done();
   }
   
-  function testMultiIpv6() {
+  public function testMultiIpv6() {
     var url:Url = 'http://[::1],[::2]/foo/bar';
-    assertEquals('[::1]', url.host);
-    assertEquals('[::1]', getHost(url.hosts, 0));
-    assertEquals('[::2]', getHost(url.hosts, 1));
+    asserts.assert(url.host == '[::1]');
+    asserts.assert(getHost(url.hosts, 0) == '[::1]');
+    asserts.assert(getHost(url.hosts, 1) == '[::2]');
     
     var url:Url = 'http://[::1]:80,[::2]:81/foo/bar';
-    assertEquals('[::1]:80', url.host);
-    assertEquals('[::1]:80', getHost(url.hosts, 0));
-    assertEquals('[::2]:81', getHost(url.hosts, 1));
+    asserts.assert(url.host == '[::1]:80');
+    asserts.assert(getHost(url.hosts, 0) == '[::1]:80');
+    asserts.assert(getHost(url.hosts, 1) == '[::2]:81');
+    return asserts.done();
   }
   
-  function testMixed() {
+  public function testMixed() {
     var url:Url = 'http://example.com,[::2]/foo/bar';
-    assertEquals('example.com', url.host);
-    assertEquals('example.com', getHost(url.hosts, 0));
-    assertEquals('[::2]', getHost(url.hosts, 1));
+    asserts.assert(url.host == 'example.com');
+    asserts.assert(getHost(url.hosts, 0) == 'example.com');
+    asserts.assert(getHost(url.hosts, 1) == '[::2]');
     
     var url:Url = 'http://example.com:80,[::2]:81/foo/bar';
-    assertEquals('example.com:80', url.host);
-    assertEquals('example.com:80', getHost(url.hosts, 0));
-    assertEquals('[::2]:81', getHost(url.hosts, 1));
+    asserts.assert(url.host == 'example.com:80');
+    asserts.assert(getHost(url.hosts, 0) == 'example.com:80');
+    asserts.assert(getHost(url.hosts, 1) == '[::2]:81');
+    return asserts.done();
   }
   
   function getHost(hosts:Iterable<String>, i) {

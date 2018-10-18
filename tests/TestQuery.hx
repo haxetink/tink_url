@@ -1,36 +1,40 @@
 package;
 import tink.url.Query;
 
+@:asserts
 class TestQuery extends Base {
-  function testParse() {
+  public function testParse() {
     var q = ('foo=bar&bar=1=1':Query).toMap();
-    assertEquals('bar', q['foo']);
-    assertEquals('1=1', q['bar']);
+    asserts.assert(q['foo'] == 'bar');
+    asserts.assert(q['bar'] == '1=1');
+    return asserts.done();
   }
   
-  function testBuilder() {
+  public function testBuilder() {
       var q = new QueryStringBuilder();
       q.add('key1', 'value1').add('key2', 'value2');
-      assertEquals('key1=value1&key2=value2', q.toString());
+      asserts.assert(q.toString() == 'key1=value1&key2=value2');
+      return asserts.done();
   }
   
-  function testWith() {
+  public function testWith() {
     var q:Query = 'a=1&b=2';
     q = q.with(['a' => '3']);
     var map = q.toMap();
-    assertEquals('3', map['a']);
-    assertEquals('2', map['b']);
+    asserts.assert(map['a'] == '3');
+    asserts.assert(map['b'] == '2');
     
     q = q.with(['c' => '4']);
     var map = q.toMap();
-    assertEquals('3', map['a']);
-    assertEquals('2', map['b']);
-    assertEquals('4', map['c']);
+    asserts.assert(map['a'] == '3');
+    asserts.assert(map['b'] == '2');
+    asserts.assert(map['c'] == '4');
     
     q = q.with(['a' => '1', 'c' => '1']);
     var map = q.toMap();
-    assertEquals('1', map['a']);
-    assertEquals('2', map['b']);
-    assertEquals('1', map['c']);
+    asserts.assert(map['a'] == '1');
+    asserts.assert(map['b'] == '2');
+    asserts.assert(map['c'] == '1');
+    return asserts.done();
   }
 }

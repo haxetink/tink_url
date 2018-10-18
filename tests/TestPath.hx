@@ -1,38 +1,40 @@
 package;
 import tink.url.Path;
 
+@:asserts
 class TestPath extends Base {
 
-  function testJoin() {
+  public function testJoin() {
         
-    assertEquals('foo/bar/', ('foo/bar/' : Path).join(''));
-    assertEquals('foo/bar', ('foo/bar' : Path).join(''));
+    asserts.assert(('foo/bar/' : Path).join('') == 'foo/bar/');
+    asserts.assert(('foo/bar' : Path).join('') == 'foo/bar');
     
-    assertEquals('foo/bar/new', ('foo/bar/' : Path).join('new'));
-    assertEquals('foo/bar/new', ('foo/bar/ignored' : Path).join('new'));
+    asserts.assert(('foo/bar/' : Path).join('new') == 'foo/bar/new');
+    asserts.assert(('foo/bar/ignored' : Path).join('new') == 'foo/bar/new');
         
-    assertEquals('foo/bar/new/nested', ('foo/bar/' : Path).join('new/nested'));
-    assertEquals('foo/bar/new/nested', ('foo/bar/ignored' : Path).join('new/nested'));
+    asserts.assert(('foo/bar/' : Path).join('new/nested') == 'foo/bar/new/nested');
+    asserts.assert(('foo/bar/ignored' : Path).join('new/nested') == 'foo/bar/new/nested');
 
-    assertEquals('new/nested', ('' : Path).join('new/nested'));
-    assertEquals('new/nested', ('ignored' : Path).join('new/nested'));
+    asserts.assert(('' : Path).join('new/nested') == 'new/nested');
+    asserts.assert(('ignored' : Path).join('new/nested') == 'new/nested');
     
-    assertEquals('foo/bar/', ('foo/bar/' : Path).join('.'));
-    assertEquals('foo/', ('foo/bar/' : Path).join('../'));
-    
+    asserts.assert(('foo/bar/' : Path).join('.') == 'foo/bar/');
+    asserts.assert(('foo/bar/' : Path).join('../') == 'foo/');
+    return asserts.done();
   }
   
-  function testNormalize() {
-    assertEquals('', Path.normalize(''));
-    assertEquals('/', Path.normalize('/'));
-    assertEquals('/', Path.normalize('/.'));
-    assertEquals('/', Path.normalize('/.././../../.'));
-    assertEquals('/', Path.normalize('/../remove/../../'));
-    assertEquals('/add', Path.normalize('/../remove/../../add'));
-    assertEquals('/add/', Path.normalize('/../remove/../../add/'));
-    assertEquals('../../add', Path.normalize('../remove/../../add'));
-    assertEquals('../../', Path.normalize('../remove/../../alsoremove/..'));
-    assertEquals('../../', Path.normalize('../remove/../../alsoremove/../'));
+  public function testNormalize() {
+    asserts.assert(Path.normalize('') == '');
+    asserts.assert(Path.normalize('/') == '/');
+    asserts.assert(Path.normalize('/.') == '/');
+    asserts.assert(Path.normalize('/.././../../.') == '/');
+    asserts.assert(Path.normalize('/../remove/../../') == '/');
+    asserts.assert(Path.normalize('/../remove/../../add') == '/add');
+    asserts.assert(Path.normalize('/../remove/../../add/') == '/add/');
+    asserts.assert(Path.normalize('../remove/../../add') == '../../add');
+    asserts.assert(Path.normalize('../remove/../../alsoremove/..') == '../../');
+    asserts.assert(Path.normalize('../remove/../../alsoremove/../') == '../../');
+    return asserts.done();
   }
     
 }

@@ -1,7 +1,8 @@
 import tink.Url;
 
-class TestAuth extends haxe.unit.TestCase {
-  function testAuth() {
+@:asserts
+class TestAuth extends Base {
+  public function testAuth() {
     var raw = [
       'https://user:pass@/foo',
       'https://user:pass@host/foo',
@@ -11,9 +12,10 @@ class TestAuth extends haxe.unit.TestCase {
     var auth = ['user:pass@', 'user:pass@', ''];
     for (r in raw) {
       var u:Url = r;
-      assertEquals(r, u);
-      assertEquals(auth[raw.indexOf(r)], u.auth);
+      asserts.assert(u == r);
+      asserts.assert(u.auth == auth[raw.indexOf(r)]);
     }
+    return asserts.done();
   }
 
 }
