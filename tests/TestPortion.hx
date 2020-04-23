@@ -13,13 +13,16 @@ class TestPortion extends Base {
     return asserts.done();
   }
 
-  #if !neko
   public function testInvalid() {
-    var portion = new Portion('%80');
-    asserts.assert(!portion.isValid());
-    asserts.assert(portion == '');
+    try {
+      '%80'.urlDecode();
+    }
+    catch (e:Dynamic) {
+      var portion = new Portion('%80');
+      asserts.assert(!portion.isValid());
+      asserts.assert(portion == '');
+    }
     return asserts.done();
   }
-  #end
 
 }
