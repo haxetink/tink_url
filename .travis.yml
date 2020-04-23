@@ -17,6 +17,7 @@ os:
   # - osx
 
 env:
+  - HAXE_VERSION=3.4.7
   - HAXE_VERSION=stable
   - HAXE_VERSION=nightly
 
