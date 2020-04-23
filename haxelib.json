@@ -9,8 +9,8 @@
 	"contributors": [
 		"back2dos"
 	],
-	"version": "0.4.1",
-	"releasenote": "Revised Auth.",
+	"version": "0.4.2",
+	"releasenote": "Deal with invalid percent encoding more gracefully.",
 	"tags": [
 		"tink",
 		"cross",
