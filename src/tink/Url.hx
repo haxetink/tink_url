@@ -4,9 +4,9 @@ import tink.url.*;
 
 using StringTools;
 
-@:forward
+@:forward @:pure
 abstract Url(UrlParts) {
-  
+
   static inline var SCHEME = 2;
   static inline var PAYLOAD = 3;
   static inline var AUTH = 6;
@@ -14,14 +14,22 @@ abstract Url(UrlParts) {
   static inline var PATH = 8;
   static inline var QUERY = 10;
   static inline var HASH = 12;
-  
+
+  public var host(get, never):Host;
+    inline function get_host()
+      return this.hosts[0];
+
+  public var hosts(get, never):Iterable<Host>;
+    inline function get_hosts():Iterable<Host>
+      return this.hosts;
+
   public var pathWithQuery(get, never):String;
     inline function get_pathWithQuery()
       return if(this.query == null) this.path else this.path + '?' + this.query;
-  
+
   inline function new(parts)
     this = parts;
-    
+
   public function resolve(that:Url):Url
     return
       if (that.scheme != null) that;
@@ -39,71 +47,71 @@ abstract Url(UrlParts) {
           scheme: this.scheme,
           query: that.query,
           auth: this.auth,
-          host: this.host,
+          hosts: this.hosts,
           hash: that.hash
         }
-        
+
         makePayload(parts);
-        
+
         return new Url(parts);
       }
-      
+
   static function makePayload(parts:UrlParts) {
-    
+
     var payload = '';
-            
+
     switch parts {
-      case { host: null, auth: null }:
-      case { auth: null, host: host }:
-        payload += '//$host';
-      case { auth: auth, host: null }:
+      case { hosts: [], auth: null }:
+      case { hosts: v, auth: null }:
+        payload += '//${v.join(',')}';
+      case { auth: auth, hosts: [] }:
         payload += '//$auth';
-      case { auth: auth, host: host } :
-        payload += '//$auth$host'; 
+      case { auth: auth, hosts: v } :
+        payload += '//$auth${v.join(',')}';
     }
-    
+
     payload += parts.path;
-    
+
     switch parts.query {
       case null:
       case v: payload += '?$v';
     }
-    
+
     switch parts.hash {
       case null:
       case v: payload += '#$v';
     }
-    
+
     @:privateAccess parts.payload = payload.toString();
   }
-  
+
   @:to public function toString()
     return switch this.scheme {
       case null: this.payload;
       default: '${this.scheme}:${this.payload}';
     }
-  
+
   @:from static function fromString(s:String):Url return parse(s);
   static function noop(_) {}
   static public function parse(s:String, ?onError:String->Void):Url {
-    
-    if (s == null) 
+
+    if (s == null)
       return parse('');
 
     if (onError == null)
       onError = noop;
 
     s = s.trim();
-    
+
     if (s.startsWith('data:')) //this is kind of a fast-path
-      return new Url( { scheme: 'data', payload: s.substr(5) } );
-    
+      return new Url( { scheme: 'data', payload: s.substr(5), hosts: [] } );
+
     var FORMAT = ~/^(([a-zA-Z][a-zA-Z0-9\-+.]*):)?((\/\/(([^@\/]+)@)?([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)$/;
-    var HOST = ~/^(\[(.*)\]|([^:]*))(:(.*))?$/;  
+    var HOST = ~/^(\[(.*)\]|([^:]*))(:(.*))?$/;
     //Ideally the above would be a constant. Unfortunately that would compromise thread safety.
-    
+
     FORMAT.match(s);
-    
+
     var hosts = switch FORMAT.matched(HOSTNAMES) {
         case null: [];
         case v:
@@ -112,16 +120,16 @@ abstract Url(UrlParts) {
               var host = switch [HOST.matched(3), HOST.matched(2)] {
                   case [ipv4, null]: ipv4;
                   case [null, ipv6]: '[$ipv6]';
-                  case _: 
-                    onError('invalid host $host'); 
+                  case _:
+                    onError('invalid host $host');
                     null;
               }
               var port = switch HOST.matched(5) {
                   case null: null;
-                  case v: 
+                  case v:
                       switch Std.parseInt(v) {
-                          case null: 
-                            onError('invalid port $v'); 
+                          case null:
+                            onError('invalid port $v');
                             null;
                           case p: p;
                       }
@@ -130,20 +138,19 @@ abstract Url(UrlParts) {
             }];
     }
     var path = FORMAT.matched(PATH);
-    
+
     if (hosts.length > 0 && path.charAt(0) != '/')
       path = '/$path';
-      
+
     return new Url({
       scheme: FORMAT.matched(SCHEME),
       payload: FORMAT.matched(PAYLOAD),
-      host: hosts[0],
       hosts: hosts,
       auth: cast FORMAT.matched(AUTH),
       path: path,
       query: FORMAT.matched(QUERY),
       hash: FORMAT.matched(HASH)
-    });    
+    });
   }
 
   static public function make(parts:UrlArgs):Url {
@@ -151,7 +158,6 @@ abstract Url(UrlParts) {
       payload: '',
       path: parts.path,
       query: parts.query,
-      host: parts.host,
       hosts: parts.hosts,
       auth: parts.auth,
       scheme: parts.scheme,
@@ -160,7 +166,7 @@ abstract Url(UrlParts) {
     makePayload(parts);
     return new Url(parts);
   }
-  
+
   #if tink_json
   @:from public static function fromRepresentation(v:tink.json.Representation<String>)
     return Url.parse(v.get());
@@ -176,8 +182,7 @@ private typedef UrlParts = {>UrlArgs,
 private typedef UrlArgs = {
   @:optional var path(default, null):Path;
   @:optional var query(default, null):Query;
-  @:optional var host(default, null):Host;
-  @:optional var hosts(default, null):Iterable<Host>;
+  var hosts(default, null):Array<Host>;
   @:optional var auth(default, null):Auth;
   @:optional var scheme(default, null):String;
   @:optional var hash(default, null):String;
