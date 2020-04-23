@@ -187,3 +187,26 @@ private typedef UrlArgs = {
   @:optional var scheme(default, null):String;
   @:optional var hash(default, null):String;
 }
+
+@:forward
+abstract SingleHostUrl(Url) to Url {
+
+  inline function new(v) this = v;
+
+  @:from static function ofUrl(u:Url)
+    return new SingleHostUrl(switch (cast u:UrlParts).hosts {
+      case [] | [_]: u;
+      case v:
+        Url.make({
+          path: u.path,
+          query: u.query,
+          hosts: [u.host],
+          auth: u.auth,
+          scheme: u.scheme,
+          hash: u.hash,
+        });
+    });
+
+  @:from static function ofString(s:String)
+    return ofUrl(s);
+}
