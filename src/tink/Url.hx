@@ -1,6 +1,7 @@
 package tink;
 
 import tink.url.*;
+import haxe.ds.ReadOnlyArray;
 
 using StringTools;
 
@@ -19,8 +20,8 @@ abstract Url(UrlParts) {
     inline function get_host()
       return this.hosts[0];
 
-  public var hosts(get, never):Iterable<Host>;
-    inline function get_hosts():Iterable<Host>
+  public var hosts(get, never):ReadOnlyArray<Host>;
+    inline function get_hosts():ReadOnlyArray<Host>
       return this.hosts;
 
   public var pathWithQuery(get, never):String;
@@ -182,7 +183,7 @@ private typedef UrlParts = {>UrlArgs,
 private typedef UrlArgs = {
   @:optional var path(default, null):Path;
   @:optional var query(default, null):Query;
-  var hosts(default, null):Array<Host>;
+  var hosts(default, null):ReadOnlyArray<Host>;
   @:optional var auth(default, null):Auth;
   @:optional var scheme(default, null):String;
   @:optional var hash(default, null):String;
