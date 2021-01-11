@@ -4,6 +4,8 @@ package tink.url;
  * Represents a host, i.e. a hostname and an additional port.
  * May be accessed when null.
  */
+@:jsonStringify(v -> (v:String))
+@:jsonParse((v:String) -> (cast v:tink.url.Host)) // TODO: validate
 abstract Host(String) to String {
   public var name(get, never):Null<String>;
   public var port(get, never):Null<Int>;
