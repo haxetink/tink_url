@@ -20,7 +20,7 @@ jobs:
           - neko
           - python
           - node
-          - cpp
+          # - cpp
           - cs
           - php
 
@@ -96,4 +96,6 @@ jobs:
       
     - name: Release to Haxelib
       run: lix run travix release
+      env:
+        HAXELIB_AUTH: ${{ secrets.HAXELIB_AUTH }}
     
