@@ -95,5 +95,5 @@ jobs:
       run: lix download
       
     - name: Release to Haxelib
-      run: lix run travix relesae
+      run: lix run travix release
     
