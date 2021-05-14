@@ -12,6 +12,9 @@ class Run {
       new TestHost(),
       new TestPortion(),
       new TestAuth(),
+      #if tink_json
+      new TestJson(),
+      #end
     ])).handle(Runner.exit);
   }
 }

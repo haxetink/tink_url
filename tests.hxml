@@ -1,4 +1,4 @@
--cp ./tests/
--lib hx3compat
+-cp tests
 -lib tink_unittest
+-lib tink_json
 -main Run

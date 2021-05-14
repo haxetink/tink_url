@@ -81,7 +81,6 @@ class TestUrl extends Base {
       return asserts.done();
   }
   
-  
   #if (cpp && (haxe_ver >= 4))
     // https://github.com/HaxeFoundation/haxe/issues/7536
   #else
