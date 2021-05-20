@@ -81,6 +81,15 @@ class TestUrl extends Base {
       return asserts.done();
   }
   
+  public function schemeless() {
+    var url:Url = '//www.google.com';
+    asserts.assert(url.scheme == null);
+    asserts.assert(url.path == '/');
+    asserts.assert(url.host == 'www.google.com');
+    asserts.assert(url.toString() == '//www.google.com');
+    return asserts.done();
+  }
+  
   #if (cpp && (haxe_ver >= 4))
     // https://github.com/HaxeFoundation/haxe/issues/7536
   #else
